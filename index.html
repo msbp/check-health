@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body>
+<div class="overflow-x-auto">
+  <table id="myTable" class="min-w-full table-auto border border-gray-300 rounded-lg shadow-sm">
+    <thead class="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
+      <tr>
+        <th class="px-6 py-3 text-left">API</th>
+        <th class="px-6 py-3 text-left">Status</th>
+        <th class="px-6 py-3 text-left">Last Check</th>
+        <th class="px-6 py-3 text-left">Results</th>
+        <th class="px-6 py-3 text-left">URL</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody" class="text-gray-900">
+      <!-- Template row (hidden) -->
+      <tr id="templateRow" class="hidden border-b border-gray-200 odd:bg-gray-50 hover:bg-gray-100">
+        <td class="px-6 py-4 api"></td>
+        <td class="px-6 py-4 status"></td>
+        <td class="px-6 py-4 lastCheckedAt"></td>
+        <td class="px-6 py-4 results"></td>
+        <td class="px-6 py-4 url"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  <!-- <table class="table-auto"> -->
+  <!--   <thead> -->
+  <!--     <tr> -->
+  <!--       <th>Name</th> -->
+  <!--       <th>URL</th> -->
+  <!--       <th>Status</th> -->
+  <!--       <th>Message</th> -->
+  <!--       <th>Last Check</th> -->
+  <!--     </tr> -->
+  <!--   </thead> -->
+  <!--   <tbody id="status-table"> -->
+  <!--     <tr> -->
+  <!--       <td>Example API</td> -->
+  <!--       <td>https://api.example.com</td> -->
+  <!--       <td class="status">🔴</td> -->
+  <!--       <td>Down</td> -->
+  <!--       <td>12:22:00 PM</td> -->
+  <!--     </tr> -->
+  <!--   </tbody> -->
+  <!-- </table> -->
+
+  <script type="module" src="renderer.js"></script>
+</body>
+</html>
+
