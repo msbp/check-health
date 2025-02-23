@@ -1,0 +1,20 @@
+{
+  "resultsToTrack": 4,
+  "apis": [
+    {
+      "name": "Example API",
+      "url": "https://example.org/",
+      "expression": ""
+    },
+    {
+      "name": "HTTP Bin",
+      "url": "https://httpbin.org/get",
+      "expression": ""
+    },
+    {
+      "name": "Google",
+      "url": "https://google.com",
+      "expression": ""
+    }
+  ]
+}
