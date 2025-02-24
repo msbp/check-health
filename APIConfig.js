@@ -1,19 +1,42 @@
 export default class APIConfig {
 	static maxResponses = 10;
-	constructor(name, url) {
+	constructor(name, url, expression) {
 		this.name = name;
 		this.url = url;
+		this.checkExpression = expression;
 		this.responses = []; // true means healthcheck successful
 		this.apiHealthy = null;
 		this.lastCheckedAt = null;
 	}
 
-	setLatestCheck(apiHealthy) {
+	async setLatestCheck(response) {
+		if (this.responses.length >= APIConfig.maxResponses) this.responses = this.responses.slice(1);
 		this.lastCheckedAt = new Date().toString();
-		this.apiHealthy = apiHealthy;
-		this.responses.push(apiHealthy);
+		const isOk = response.ok;
+		if (!isOk) {
+			this.apiHealthy = false;
+			this.responses.push(this.apiHealthy);
+			return;
+		}
 
-		if (this.responses.length > APIConfig.maxResponses) this.responses = this.responses.slice(1);
+		// If status is 2-hundred level and check body if required
+		if (!this.checkExpression) {
+			this.apiHealthy = true;
+			this.responses.push(this.apiHealthy);
+			return;
+		}
+
+		// If check body is required then check body against expression
+		const parsedResponse = await response.json();
+		const parsedValue = this.checkExpression?.key.split('.').reduce((acc, key) => acc?.[key], parsedResponse);
+		if (this.checkExpression.value != parsedValue) {
+			this.apiHealthy = false;
+			this.responses.push(this.apiHealthy);
+			return;
+		}
+
+		this.apiHealthy = true;
+		this.responses.push(this.apiHealthy);
 	}
 
 	get status() {

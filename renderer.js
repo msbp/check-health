@@ -5,16 +5,17 @@ const config = await window.electronAPI.getConfig();
 if (config.resultsToTrack) APIConfig.maxResponses = config.resultsToTrack;
 
 // Create instances of APIConfig
-const apis = config.apis.map(c => new APIConfig(c.name, c.url));
+const apis = config.apis.map(c => new APIConfig(c.name, c.url, c.expression));
 
 async function checkApiHealth() {
 	let overallHealthy = true;
 	for (const api of apis) {
 		const response = await fetch(api.url);
-		const isHealthy = response.ok;
-		api.setLatestCheck(isHealthy);
+		await api.setLatestCheck(response);
 
-		if (!isHealthy) overallHealthy = false;
+		if (!api.apiHealthy) {
+			overallHealthy = false;
+		}
 
 		const row = {
 			name: api.name,
