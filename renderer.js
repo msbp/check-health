@@ -1,20 +1,11 @@
 import APIConfig from './APIConfig.js';
-// const config = [
-// 	{ name: "Example API", url: "https://example.org/" },
-// 	{ name: "Another API", url: "https://httpbin.org/get" },
-// ];
-// Load and parse config
-let config;
-{
-	const response = await fetch('./config.json');
-	const json = await response.json();
-	config = json;
-}
-// const config = fetch('./config.json').then(response => response.json());
-console.log('created config:', config);
 
+// Load config
+const config = await window.electronAPI.getConfig();
+if (config.resultsToTrack) APIConfig.maxResponses = config.resultsToTrack;
+
+// Create instances of APIConfig
 const apis = config.apis.map(c => new APIConfig(c.name, c.url));
-console.log('created apis:', apis);
 
 async function checkApiHealth() {
 	let overallHealthy = true;
