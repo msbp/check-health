@@ -17,45 +17,57 @@ async function checkApiHealth() {
 			overallHealthy = false;
 		}
 
-		const row = {
+		const cardData = {
 			name: api.name,
 			status: api.status,
 			lastCheckedAt: api.lastCheckedAt,
 			results: api.healthyCount,
 			url: api.url
 		}
-		insertRow(row);
+		insertCard(cardData);
 	}
 
 	// Set icon based on every api being healthy
 	window.electronAPI.setMenubarIcon(overallHealthy);
 }
 
-function insertRow({ name, status, lastCheckedAt, results, url }) {
-	const tableBody = document.getElementById('tableBody');
-	const templateRow = document.getElementById('templateRow');
+const generateCard = ({ name, status, lastCheckedAt, results, url }) => {
+	return `
+            <div class="flex items-center gap-4 bg-[#F9FAFA] px-4 min-h-[72px] py-2 justify-between">
+              <div class="flex items-center gap-4">
+                <div
+                  class="text-[#1C1D22] flex items-center justify-center rounded-lg bg-[#EEEFF2] shrink-0 size-12 status"
+                  data-icon="CheckCircle"
+                  data-size="24px"
+                  data-weight="regular"
+                >${status}
+                </div>
+                <div class="flex flex-col justify-center">
+                  <p class="text-[#1C1D22] text-base font-medium leading-normal line-clamp-1 api">${name}</p>
+                  <p class="text-[#3C3F4A] text-sm font-normal leading-normal line-clamp-2 url">${url}</p>
+                </div>
+              </div>
+              <div class="shrink-0"><p class="text-[#1C1D22] text-base font-normal leading-normal lastCheckedAt">${lastCheckedAt}</p></div>
+            </div>
+`
+}
 
-	let row;
+const insertCard = ({ name, status, lastCheckedAt, results, url }) => {
+	const container = document.getElementById('container-body');
+	const existingCard = document.getElementById(`card-${name}`);
 
-	// Attempt to find the row by the url
-	const rowExists = Array.from(tableBody.querySelectorAll('.url'))
-		.find(cell => cell.textContent === url);
-	if (rowExists) {
-		row = rowExists.closest('tr');
-	} else {
-		row = templateRow.cloneNode(true);
-		row.removeAttribute('id');
-		row.classList.remove('hidden');
-
+	if (existingCard) {
+		existingCard.querySelector('.api').textContent = name;
+		existingCard.querySelector('.status').textContent = status;
+		existingCard.querySelector('.lastCheckedAt').textContent = lastCheckedAt;
+		existingCard.querySelector('.url').textContent = url;
+		return;
 	}
 
-	row.querySelector('.api').textContent = name;
-	row.querySelector('.status').textContent = status;
-	row.querySelector('.lastCheckedAt').textContent = lastCheckedAt;
-	row.querySelector('.results').textContent = results;
-	row.querySelector('.url').textContent = url;
-
-	tableBody.appendChild(row);
+	const card = document.createElement('div');
+	card.id = `card-${name}`;
+	card.innerHTML = generateCard({ name, status, lastCheckedAt, results, url });
+	container.appendChild(card);
 }
 
 // Refresh every 60 seconds
