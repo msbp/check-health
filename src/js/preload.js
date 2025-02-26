@@ -6,4 +6,4 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	getConfig: async () => {
 		return ipcRenderer.invoke('get-config')
 	},
-})
+});

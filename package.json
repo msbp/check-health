@@ -2,12 +2,12 @@
   "name": "check-health",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
     "watch": "nodemon --exec npm start",
-    "tailwind:build": "npx @tailwindcss/cli -i ./input.css -o ./output.css",
-    "tailwind:watch": "npx @tailwindcss/cli -i ./input.css -o ./output.css --watch",
+    "tailwind:build": "npx @tailwindcss/cli -i ./src/css/input.css -o ./src/css/output.css",
+    "tailwind:watch": "npx @tailwindcss/cli -i ./src/css/input.css -o ./src/css/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make"

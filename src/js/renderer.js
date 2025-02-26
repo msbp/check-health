@@ -7,7 +7,7 @@ if (config.resultsToTrack) APIConfig.maxResponses = config.resultsToTrack;
 // Create instances of APIConfig
 const apis = config.apis.map(c => new APIConfig(c.name, c.url, c.expression));
 
-async function checkApiHealth() {
+const checkApiHealth = async () => {
 	let overallHealthy = true;
 	for (const api of apis) {
 		const response = await fetch(api.url);
@@ -70,7 +70,5 @@ const insertCard = ({ name, status, lastCheckedAt, results, url }) => {
 	container.appendChild(card);
 }
 
-// Refresh every 60 seconds
-setInterval(checkApiHealth, 10000);
+setInterval(checkApiHealth, config.intervalMS || 10000);
 checkApiHealth();
-
