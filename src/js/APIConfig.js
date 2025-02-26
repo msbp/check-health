@@ -11,8 +11,19 @@ export default class APIConfig {
 
 	async setLatestCheck(response) {
 		if (this.responses.length >= APIConfig.maxResponses) this.responses = this.responses.slice(1);
-		this.lastCheckedAt = new Date().toString();
 		const isOk = response.ok;
+
+		const date = new Date()
+			.toLocaleString('en-US', {
+				month: '2-digit',
+				day: '2-digit',
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+				hour12: true,
+			}).replace(',', "");
+		this.lastCheckedAt = date;
+
 		if (!isOk) {
 			this.apiHealthy = false;
 			this.responses.push(this.apiHealthy);

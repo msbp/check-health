@@ -5,9 +5,9 @@ const os = require('os');
 const fs = require('fs');
 
 const configPath = path.join(os.homedir(), '.check-health/config.json');
-const healthyIconPath = path.join(__dirname, 'assets', 'green20.png');
-const unhealthyIconPath = path.join(__dirname, 'assets', 'red20.png');
-const preloadScriptPath = path.join(__dirname, 'preload.js');
+const healthyIconPath = path.join(__dirname, 'assets', 'green@2x.png');
+const unhealthyIconPath = path.join(__dirname, 'assets', 'red@2x.png');
+const preloadScriptPath = path.join(__dirname, 'js', 'preload.js');
 
 let config;
 
@@ -23,6 +23,7 @@ const handleGetConfig = (event) => {
 }
 
 const mb = menubar({
+	dir: path.join(__dirname),
 	browserWindow: {
 		webPreferences: {
 			preload: preloadScriptPath
