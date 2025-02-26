@@ -2,6 +2,8 @@
 
 Electron MVP menubar application for hitting API endpoints and checking their health.
 
+![image](docs/images/demo.png)
+
 ## To build:
 
 1. `npm install`
